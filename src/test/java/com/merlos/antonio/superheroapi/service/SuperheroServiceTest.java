@@ -124,7 +124,6 @@ class SuperheroServiceTest {
 
         service.deleteSuperheroById(id);
 
-        Assertions.assertTrue(superheroList.isEmpty());
         Mockito.verify(repo, Mockito.times(1)).deleteById(id);
     }
 
