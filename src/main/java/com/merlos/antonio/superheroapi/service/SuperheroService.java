@@ -1,48 +1,20 @@
 package com.merlos.antonio.superheroapi.service;
 
 import com.merlos.antonio.superheroapi.model.Superhero;
-import com.merlos.antonio.superheroapi.repository.SuperheroRepository;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
-@Service
-public class SuperheroService {
+public interface SuperheroService {
 
-    private SuperheroRepository repo;
+    void createSuperhero(Superhero superhero);
 
-    public SuperheroService(SuperheroRepository repo){
-        this.repo = repo;
-    }
+    Superhero getSuperheroById(Long id);
 
-    public List<Superhero> getAllSuperheroes(){
-        return repo.findAll();
-    }
+    List<Superhero> getAllSuperheroes();
 
-    public Superhero getSuperheroById(Long id){
-        return repo.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
+    List<Superhero> getSuperheroesByNameContaining(String name);
 
-    public List<Superhero> getSuperheroesByNameContaining(String value){
-        return repo.findByNameContaining(value);
-    }
+    Superhero updateSuperhero(Long id, Superhero superhero);
 
-    public void createSuperhero(Superhero newSuperhero){
-
-        repo.save(newSuperhero);
-    }
-
-    public Superhero updateSuperhero(Long id, Superhero updatedSuperhero){
-
-        Superhero existingHero = getSuperheroById(id);
-        existingHero.setName(updatedSuperhero.getName());
-
-        return repo.save(existingHero);
-    }
-
-    public void deleteSuperheroById(Long id){
-
-        repo.deleteById(id);
-    }
+    void deleteSuperheroById(Long id);
 }

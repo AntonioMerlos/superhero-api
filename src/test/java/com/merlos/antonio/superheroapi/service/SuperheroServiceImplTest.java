@@ -3,8 +3,8 @@ package com.merlos.antonio.superheroapi.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merlos.antonio.superheroapi.model.Superhero;
 import com.merlos.antonio.superheroapi.repository.SuperheroRepository;
+import com.merlos.antonio.superheroapi.service.impl.SuperheroServiceImpl;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-class SuperheroServiceTest {
+class SuperheroServiceImplTest {
 
     private static final Resource SUPERHERO_1 = new ClassPathResource("superhero1.json");
 
@@ -33,7 +33,7 @@ class SuperheroServiceTest {
     private static final String SEARCH_VALUE = "man";
 
     @InjectMocks
-    private SuperheroService service;
+    private SuperheroServiceImpl service;
 
     @Mock
     private SuperheroRepository repo;
