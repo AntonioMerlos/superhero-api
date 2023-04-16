@@ -2,7 +2,6 @@ package com.merlos.antonio.superheroapi.mapper;
 
 import com.merlos.antonio.superheroapi.dto.SuperheroDTO;
 import com.merlos.antonio.superheroapi.model.Superhero;
-import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

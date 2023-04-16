@@ -32,9 +32,9 @@ public class SuperheroController {
         return ResponseEntity.ok().body(mapper.asSuperheroDtoList(superheroes));
     }
 
-    @PostMapping("/superhero")
+    @GetMapping("/superhero")
     @Operation(summary = "Get a superhero by its Id")
-    public ResponseEntity<SuperheroDTO> getSuperheroById(@RequestBody Long id){
+    public ResponseEntity<SuperheroDTO> getSuperheroById(@RequestParam(name = "id") Long id){
 
         Superhero superhero = service.getSuperheroById(id);
 
@@ -45,11 +45,11 @@ public class SuperheroController {
         return ResponseEntity.ok().body(mapper.asSuperheroDto(superhero));
     }
 
-    @PostMapping("superheroes/search")
-    @Operation(summary = "Get a list of superheros containing the search values on its name")
-    public ResponseEntity<List<SuperheroDTO>> getSuperheroByNameContaining(@RequestBody String value){
+    @GetMapping("superheroes/{value}")
+    @Operation(summary = "Get a list of superheroes containing the search values on its name")
+    public ResponseEntity<List<SuperheroDTO>> getSuperheroByNameContaining(@PathVariable String value){
 
-        List<Superhero> superheroList = service.getSuperheroesByNameContaining(value);
+        List<Superhero> superheroList = service.getSuperheroesByNameContainingIgnoreCase(value);
 
         return ResponseEntity.ok().body(mapper.asSuperheroDtoList(superheroList));
     }
@@ -62,5 +62,33 @@ public class SuperheroController {
         superhero = service.createSuperhero(superhero);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.asSuperheroDto(superhero));
+    }
+
+    //TODO FIX
+    @PutMapping("/superheroes")
+    @Operation(summary = "Update a superhero name by Id")
+    public ResponseEntity<SuperheroDTO> updateSuperhero(@RequestParam(name = "id") Long id, @RequestBody SuperheroDTO dto){
+
+        Superhero existingSuperhero = service.getSuperheroById(id);
+
+        if (existingSuperhero == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        Superhero superhero = mapper.asSuperhero(dto);
+        superhero.setId(id);
+        return ResponseEntity.ok().body(mapper.asSuperheroDto(superhero));
+    }
+
+    @DeleteMapping("/superheroes")
+    @Operation(summary = "Delete a superhero by Id")
+    public ResponseEntity<?> deleteSuperhero(@RequestParam(name = "id") Long id){
+        Superhero superhero = service.getSuperheroById(id);
+        if (superhero == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        service.deleteSuperheroById(id);
+        return ResponseEntity.noContent().build();
     }
 }

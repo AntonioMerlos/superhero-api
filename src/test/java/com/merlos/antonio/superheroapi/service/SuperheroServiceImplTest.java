@@ -81,9 +81,9 @@ class SuperheroServiceImplTest {
         superheroes.add(this.asSuperheroFromJsonFile(SUPERHERO_2));
         superheroes.add(this.asSuperheroFromJsonFile(SUPERHERO_3));
 
-        Mockito.when(repo.findByNameContaining(SEARCH_VALUE)).thenReturn(superheroes);
+        Mockito.when(repo.findByNameContainingIgnoreCase(SEARCH_VALUE)).thenReturn(superheroes);
 
-        List<Superhero> result = service.getSuperheroesByNameContaining(SEARCH_VALUE);
+        List<Superhero> result = service.getSuperheroesByNameContainingIgnoreCase(SEARCH_VALUE);
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(superheroes, result);

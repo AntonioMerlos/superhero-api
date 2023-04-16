@@ -25,8 +25,8 @@ public class SuperheroServiceImpl implements SuperheroService {
         return repo.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public List<Superhero> getSuperheroesByNameContaining(String value){
-        return repo.findByNameContaining(value);
+    public List<Superhero> getSuperheroesByNameContainingIgnoreCase(String value){
+        return repo.findByNameContainingIgnoreCase(value);
     }
 
     public Superhero createSuperhero(Superhero newSuperhero){
