@@ -3,17 +3,27 @@ package com.merlos.antonio.superheroapi.mapper;
 import com.merlos.antonio.superheroapi.dto.SuperheroDTO;
 import com.merlos.antonio.superheroapi.model.Superhero;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper
-public interface SuperheroMapper {
+@Component
+public class SuperheroMapper {
 
-    SuperheroDTO asSuperheroDto(Superhero value);
+    public SuperheroDTO asSuperheroDto(Superhero superhero){
+        return SuperheroDTO.builder().name(superhero.getName()).build();
+    }
 
-    List<SuperheroDTO> asSuperheroDtoList(List<Superhero> values);
+    public List<SuperheroDTO> asSuperheroDtoList(List<Superhero> superheroList){
 
-    Superhero asSuperhero(SuperheroDTO value);
+        return superheroList.stream().map(this::asSuperheroDto).collect(Collectors.toList());
+    }
 
-    List<Superhero> asSuperheroList(List<SuperheroDTO> values);
+    public Superhero asSuperhero(SuperheroDTO dto){
+
+        return Superhero.builder().name(dto.getName()).build();
+    }
+
 }

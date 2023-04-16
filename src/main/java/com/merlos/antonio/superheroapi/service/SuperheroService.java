@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SuperheroService {
 
-    void createSuperhero(Superhero superhero);
+    Superhero createSuperhero(Superhero superhero);
 
     Superhero getSuperheroById(Long id);
 

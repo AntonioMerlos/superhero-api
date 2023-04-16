@@ -9,7 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
-public class SuperheroServiceImpl implements SuperheroService{
+public class SuperheroServiceImpl implements SuperheroService {
 
     private SuperheroRepository repo;
 
@@ -29,9 +29,9 @@ public class SuperheroServiceImpl implements SuperheroService{
         return repo.findByNameContaining(value);
     }
 
-    public void createSuperhero(Superhero newSuperhero){
+    public Superhero createSuperhero(Superhero newSuperhero){
 
-        repo.save(newSuperhero);
+        return repo.save(newSuperhero);
     }
 
     public Superhero updateSuperhero(Long id, Superhero updatedSuperhero){
