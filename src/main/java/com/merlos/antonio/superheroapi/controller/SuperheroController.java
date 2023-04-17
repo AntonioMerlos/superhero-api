@@ -77,12 +77,13 @@ public class SuperheroController {
 
         Superhero superhero = mapper.asSuperhero(dto);
         superhero.setId(id);
-        return ResponseEntity.ok().body(mapper.asSuperheroDto(superhero));
+        existingSuperhero = service.updateSuperhero(id, superhero);
+        return ResponseEntity.ok().body(mapper.asSuperheroDto(existingSuperhero));
     }
 
     @DeleteMapping("/superheroes")
     @Operation(summary = "Delete a superhero by Id")
-    public ResponseEntity<?> deleteSuperhero(@RequestParam(name = "id") Long id){
+    public ResponseEntity<Void> deleteSuperhero(@RequestParam(name = "id") Long id){
         Superhero superhero = service.getSuperheroById(id);
         if (superhero == null){
             return ResponseEntity.notFound().build();
