@@ -5,13 +5,17 @@ import com.merlos.antonio.superheroapi.mapper.SuperheroMapper;
 import com.merlos.antonio.superheroapi.model.Superhero;
 import com.merlos.antonio.superheroapi.service.impl.SuperheroServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
+@Slf4j
 public class SuperheroController {
 
     private final SuperheroServiceImpl service;
@@ -36,13 +40,14 @@ public class SuperheroController {
     @Operation(summary = "Get a superhero by its Id")
     public ResponseEntity<SuperheroDTO> getSuperheroById(@RequestParam(name = "id") Long id){
 
-        Superhero superhero = service.getSuperheroById(id);
-
-        if (superhero == null){
-            return ResponseEntity.notFound().build();
+        try{
+            Superhero superhero = service.getSuperheroById(id);
+            return ResponseEntity.ok().body(mapper.asSuperheroDto(superhero));
+        } catch (Exception e){
+            log.error("Superhero with id ({}) doesn't exist in DB", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        return ResponseEntity.ok().body(mapper.asSuperheroDto(superhero));
     }
 
     @GetMapping("superheroes/{value}")
@@ -64,32 +69,32 @@ public class SuperheroController {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.asSuperheroDto(superhero));
     }
 
-    //TODO FIX
     @PutMapping("/superheroes")
     @Operation(summary = "Update a superhero name by Id")
     public ResponseEntity<SuperheroDTO> updateSuperhero(@RequestParam(name = "id") Long id, @RequestBody SuperheroDTO dto){
 
-        Superhero existingSuperhero = service.getSuperheroById(id);
-
-        if (existingSuperhero == null){
-            return ResponseEntity.notFound().build();
+        try {
+            Superhero superhero = mapper.asSuperhero(dto);
+            superhero.setId(id);
+            Superhero existingSuperhero = service.updateSuperhero(id, superhero);
+            return ResponseEntity.ok().body(mapper.asSuperheroDto(existingSuperhero));
+        } catch (Exception e) {
+            log.error("Superhero with id ({}) doesn't exist in DB", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        Superhero superhero = mapper.asSuperhero(dto);
-        superhero.setId(id);
-        existingSuperhero = service.updateSuperhero(id, superhero);
-        return ResponseEntity.ok().body(mapper.asSuperheroDto(existingSuperhero));
+
     }
 
     @DeleteMapping("/superheroes")
     @Operation(summary = "Delete a superhero by Id")
     public ResponseEntity<Void> deleteSuperhero(@RequestParam(name = "id") Long id){
-        Superhero superhero = service.getSuperheroById(id);
-        if (superhero == null){
-            return ResponseEntity.notFound().build();
+        try {
+            service.deleteSuperheroById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("Superhero with id ({}) doesn't exist in DB", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
-        service.deleteSuperheroById(id);
-        return ResponseEntity.noContent().build();
     }
 }
