@@ -1,8 +1,8 @@
-package com.merlos.antonio.superheroapi.config;
+package com.merlos.antonio.superheroapi.service.impl;
 
 import com.merlos.antonio.superheroapi.model.User;
-import com.merlos.antonio.superheroapi.repository.SuperheroRepository;
 import com.merlos.antonio.superheroapi.repository.UserRepository;
+import com.merlos.antonio.superheroapi.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

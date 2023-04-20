@@ -9,3 +9,15 @@ INSERT INTO SUPERHERO (name) VALUES ('Spiderman');
 INSERT INTO SUPERHERO (name) VALUES ('Batman');
 INSERT INTO SUPERHERO (name) VALUES ('All-Might');
 INSERT INTO SUPERHERO (name) VALUES ('Wolverine');
+
+DROP TABLE IF EXISTS USERS;
+
+CREATE TABLE USERS(
+     id INT PRIMARY KEY AUTO_INCREMENT,
+     name VARCHAR(255),
+     email VARCHAR(255),
+     password VARCHAR(255)
+);
+
+INSERT INTO USERS (name, email, password)
+VALUES ('User', 'user@email.com', '$2a$10$Kg6ouGCo6E1l.np6aLl8velHm5ck/KNYIgyxJcPxBdJGU/ql8k/g2');

@@ -1,4 +1,4 @@
-package com.merlos.antonio.superheroapi.config;
+package com.merlos.antonio.superheroapi.security;
 
 import com.merlos.antonio.superheroapi.model.User;
 import lombok.AllArgsConstructor;

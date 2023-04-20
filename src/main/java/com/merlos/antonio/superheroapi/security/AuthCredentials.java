@@ -1,4 +1,4 @@
-package com.merlos.antonio.superheroapi.config;
+package com.merlos.antonio.superheroapi.security;
 
 import lombok.Data;
 
