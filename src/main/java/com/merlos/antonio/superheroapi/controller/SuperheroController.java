@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,7 @@ public class SuperheroController {
         try{
             Superhero superhero = service.getSuperheroById(id);
             return ResponseEntity.ok().body(mapper.asSuperheroDto(superhero));
-        } catch (Exception e){
+        } catch (EntityNotFoundException e){
             log.warn("Superhero with id ({}) doesn't exist in DB", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
