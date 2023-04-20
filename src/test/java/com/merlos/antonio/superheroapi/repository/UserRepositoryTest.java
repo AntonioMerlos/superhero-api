@@ -38,11 +38,11 @@ public class UserRepositoryTest {
         User user = this.asUserFromJsonFile(USER);
         repo.save(user);
 
-        Optional<User> foundUser = repo.findOneByEmail(USER_EMAIL);
+        Optional<User> result = repo.findOneByEmail(USER_EMAIL);
 
-        assertThat(foundUser).isPresent();
-        Assertions.assertEquals(foundUser.get().getEmail(), USER_EMAIL);
-        Assertions.assertEquals(foundUser.get().getPassword(), USER_PASSWORD);
+        assertThat(result).isPresent();
+        Assertions.assertEquals(USER_EMAIL, result.get().getEmail());
+        Assertions.assertEquals(USER_PASSWORD, result.get().getPassword());
     }
 
     private User asUserFromJsonFile(Resource resource) throws IOException {

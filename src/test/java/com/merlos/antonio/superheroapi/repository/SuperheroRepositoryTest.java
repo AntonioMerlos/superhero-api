@@ -2,6 +2,7 @@ package com.merlos.antonio.superheroapi.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merlos.antonio.superheroapi.model.Superhero;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,10 @@ class SuperheroRepositoryTest {
         Superhero superhero3 = asSuperheroFromJsonFile(SUPERHERO_3);
         repo.saveAll(Arrays.asList(superhero1, superhero2, superhero3));
 
-        List<Superhero> foundSuperheroes = repo.findByNameContainingIgnoreCase("man");
+        List<Superhero> result = repo.findByNameContainingIgnoreCase("man");
 
-        assertThat(foundSuperheroes).hasSize(2);
-        assertThat(foundSuperheroes).containsExactlyInAnyOrder(superhero1, superhero2);
+        Assertions.assertEquals(2, result.size());
+        assertThat(result).containsExactlyInAnyOrder(superhero1, superhero2);
     }
 
     private Superhero asSuperheroFromJsonFile(Resource resource) throws IOException {
